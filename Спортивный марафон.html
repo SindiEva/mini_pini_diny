@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Спортивный марафон — Telegram Mini App</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="styles.css"/>
+
+<style>
+  /* Page chrome — soft warm gradient background showing the device */
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(60% 40% at 80% 10%, rgba(232,184,156,0.22), transparent 70%),
+      radial-gradient(60% 50% at 10% 80%, rgba(200,191,216,0.22), transparent 70%),
+      radial-gradient(80% 50% at 50% 50%, #F5EAD9, #E9DEC8);
+    min-height: 100vh;
+  }
+
+  .stage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle background labeling */
+  .badge {
+    position: fixed; top: 24px; left: 24px;
+    display: flex; align-items: center; gap: 10px; z-index: 5;
+    color: rgba(61,51,42,0.55);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+  }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blush, #E8B89C); box-shadow: 0 0 0 4px rgba(232,184,156,0.18);}
+  .legend {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    color: rgba(61,51,42,0.5); font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    z-index: 5;
+  }
+
+  /* Scale the device on narrow screens */
+  @media (max-width: 460px) {
+    .stage { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="badge">
+  <span class="dot"></span>
+  <span>СПОРТИВНЫЙ МАРАФОН · Telegram Mini App</span>
+</div>
+
+<div class="stage">
+  <div id="root"></div>
+</div>
+
+<div class="legend">light theme · iPhone 15 · ru-RU</div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- iOS frame (status bar, home indicator, dynamic island) -->
+<script type="text/babel" data-presets="react" src="ios-frame.jsx"></script>
+
+<!-- UI primitives -->
+<script type="text/babel" data-presets="react" src="ui.jsx"></script>
+
+<!-- Screens -->
+<script type="text/babel" data-presets="react" src="screens.jsx"></script>
+
+<!-- App shell -->
+<script type="text/babel" data-presets="react" src="app.jsx"></script>
+
+<!-- Boot -->
+<script type="text/babel" data-presets="react">
+  // Wrap App in IOSDevice (light theme)
+  function Boot() {
+    const W = 402, H = 874;
+    const [scale, setScale] = React.useState(1);
+    React.useEffect(() => {
+      const compute = () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const sw = (w - 40) / W;
+        const sh = (h - 40) / H;
+        setScale(Math.min(1, Math.min(sw, sh)));
+      };
+      compute();
+      window.addEventListener('resize', compute);
+      return () => window.removeEventListener('resize', compute);
+    }, []);
+
+    return (
+      <div style={{ width: W * scale, height: H * scale, position: 'relative' }}>
+        <div style={{
+          width: W, height: H,
+          transform: `scale(${scale})`,
+          transformOrigin: 'top left',
+        }}>
+          <IOSDevice width={W} height={H}>
+            <App/>
+          </IOSDevice>
+        </div>
+      </div>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<Boot/>);
+</script>
+
+</body>
+</html>

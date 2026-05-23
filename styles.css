@@ -1,0 +1,130 @@
+/* ============================================================
+   Спортивный марафон — design tokens
+   Soft wellness · premium feminine · cozy minimal
+   ============================================================ */
+
+:root {
+  /* surfaces */
+  --bg:           #FAF6F0;        /* warm cream */
+  --bg-deep:      #F3EBDF;        /* deeper cream for sections */
+  --surface:      #FFFCF8;        /* card */
+  --surface-2:    #FBF6EE;        /* nested card */
+  --line:         #EFE6D7;        /* hairline */
+  --line-strong:  #E3D6C2;
+
+  /* ink */
+  --ink:          #3D332A;        /* primary text */
+  --ink-2:        #6E5F52;        /* secondary */
+  --ink-3:        #A89A8B;        /* tertiary */
+
+  /* accents — share low chroma */
+  --blush:        #E8B89C;
+  --blush-soft:   #F4D9C8;
+  --blush-tint:   #FBEDE2;
+  --sage:         #BFD0B0;
+  --sage-soft:    #DBE5D0;
+  --sage-tint:    #ECF1E4;
+  --lavender:     #C8BFD8;
+  --lavender-soft:#DDD6E8;
+  --lavender-tint:#EEEAF3;
+  --gold:         #C9A36A;
+  --rose:         #D89C9C;
+  --rose-tint:    #F5E2E2;
+  --butter:       #F0DCA8;
+  --butter-tint:  #FAF1D8;
+
+  /* radii */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+
+  /* shadows — warm, soft */
+  --shadow-1: 0 1px 2px rgba(67, 52, 36, 0.04), 0 2px 8px rgba(67, 52, 36, 0.04);
+  --shadow-2: 0 2px 6px rgba(67, 52, 36, 0.05), 0 12px 30px rgba(67, 52, 36, 0.06);
+  --shadow-soft: 0 8px 24px rgba(176, 137, 95, 0.10);
+
+  /* type */
+  --serif: 'Cormorant Garamond', 'Cormorant', Georgia, serif;
+  --sans:  'Manrope', -apple-system, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: #ECE4D7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+
+/* utility */
+.text-serif { font-family: var(--serif); font-weight: 500; letter-spacing: 0.01em; }
+.text-serif-it { font-family: var(--serif); font-weight: 500; font-style: italic; letter-spacing: 0.01em; }
+
+/* hide scrollbars inside phone */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ============================================================
+   Animations
+   ============================================================ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.04); opacity: 0.85; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@keyframes spinSoft {
+  to { transform: rotate(360deg); }
+}
+
+.fade-up   { animation: fadeUp .45s cubic-bezier(.2,.7,.2,1) both; }
+.fade-in   { animation: fadeIn .35s ease both; }
+
+.shimmer {
+  background: linear-gradient(90deg, #EFE6D7 0%, #F8F1E4 50%, #EFE6D7 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* placeholder image pattern */
+.ph-img {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0)),
+    repeating-linear-gradient( 45deg,
+      rgba(255,255,255,0.0) 0 8px,
+      rgba(255,255,255,0.35) 8px 9px);
+}
+
+/* hairline border */
+.hair { border: 1px solid var(--line); }
+
+/* Tap feedback */
+.tap { transition: transform .15s ease, background .15s ease, box-shadow .2s ease; }
+.tap:active { transform: scale(0.985); }
+
+/* Screen-transition */
+.screen-enter {
+  animation: fadeUp .35s cubic-bezier(.2,.7,.2,1) both;
+}
